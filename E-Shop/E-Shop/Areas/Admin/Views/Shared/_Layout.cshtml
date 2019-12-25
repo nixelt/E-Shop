@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/bundles/admin")
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <div class="wrapper">
+
+        <div id="sidebar" class="bg-dark">
+            <ul class="list-unstyled components">
+                <li class="sidebar-header">
+                    <a href="@Url.Action("Index", "Home", new { Area = string.Empty })">
+                        Nixelt Store
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Order")">Заказы</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Category")">Категории</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Product")">Товары</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Supply")">Поставки</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Supplier")">Поставщики</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Customer")">Пользователи</a>
+                </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Manager")">Менеджеры</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index","Log")">Логи</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+
+                </div>
+            </nav>
+            @RenderBody()
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/adminJs")
+    @Scripts.Render("~/bundles/main")
+</body>
+</html>

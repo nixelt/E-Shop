@@ -1,0 +1,29 @@
+﻿@model E_Shop.ViewModels.HomeViewModels.IndexHomeViewModel
+@{
+    ViewBag.Title = "Nixelt Store";
+}
+
+<div class="row">
+    <div class="col-12 col-sm-4 col-md-3">
+        <div class="card mb-3">
+            <div class="card-header header m-0">
+                <a href="@Url.Action("Index", "Catalog")" class="text-white"><i class="fa fa-list"></i> Категории</a>
+            </div>
+            <ul class="list-group category_block">
+                @foreach (var category in Model.Categories)
+                {
+                    <li class="list-group-item">
+                        <a href="@Url.Action("Products", "Catalog", new { id = category.CategoryId })">@category.Name</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col">
+        <p class="row header">Новые товары</p>
+        @Html.Partial("~/Views/Product/_ProductList.cshtml", Model.Newest)
+
+        <p class="row header">Популярные товары</p>
+        @Html.Partial("~/Views/Product/_ProductList.cshtml", Model.MostPopular)
+    </div>
+</div>

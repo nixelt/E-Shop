@@ -1,0 +1,27 @@
+﻿@model E_Shop.ViewModels.PagerViewModel.PagerViewModel<E_Shop.Areas.Admin.ViewModels.UserViewModels.UserViewModel>
+
+@{
+    ViewBag.Title = "Пользователи";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Ajax.BeginForm("GetUsers", new AjaxOptions { UpdateTargetId = "customers" }))
+{
+    <div class="d-flex">
+        <label class="form-check-label pl-3">
+            <input class="form-check-input" name="onlyBlocked" type="checkbox" id="AjaxChangeSubmit" value="true" />
+            Только заблокированные
+        </label>
+    </div>
+    <div id="customers">
+        @Html.Partial("_Customers", Model)
+    </div>
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+}

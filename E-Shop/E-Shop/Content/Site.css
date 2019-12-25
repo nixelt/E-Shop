@@ -1,0 +1,230 @@
+﻿body {
+    background-color: #fafafa
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+.form-control[type="file"] {
+    border: none;
+}
+
+main {
+    padding: 10px;
+}
+
+a {
+    color: inherit
+}
+
+    a:hover {
+        text-decoration: none;
+    }
+
+textarea {
+    resize: none;
+}
+
+.catalog-picture {
+    position: relative;
+    display: block;
+    height: 170px;
+}
+
+.nav-link:hover {
+    color: #a2a2a2;
+}
+
+.nav-link:active {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.responsive-img {
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+    .responsive-img img {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        max-width: 100%;
+        max-height: 100%;
+        margin: auto;
+    }
+
+.header {
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #007bff;
+    border-radius: .25rem
+}
+
+.catalog-title {
+    display: block;
+    height: 4.05em;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
+    color: #293449;
+    overflow: hidden;
+}
+
+
+.price-block {
+    height: 80px;
+}
+
+.price {
+    display: inline-block;
+    padding: 8px 6px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.new-price {
+    color: #fb515d;
+    background-color: #fef2b8;
+}
+
+.old-price {
+    font-weight: normal;
+    text-decoration: line-through;
+    color: #a2a2a2;
+}
+
+
+.checkbox-label > input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-label {
+    position: relative;
+    padding-left: 1.5em;
+    cursor: pointer;
+}
+
+    .checkbox-label:before {
+        content: "";
+        position: absolute;
+        top: 0.25em;
+        left: 0;
+        width: 1em;
+        height: 1em;
+        border: 3px solid #eaeaea;
+    }
+
+input[type="checkbox"]:checked ~ span {
+    position: absolute;
+    left: 0;
+    content: "";
+    width: 1em;
+    height: .5em;
+    border-left: 3px solid #000;
+    border-bottom: 3px solid #000;
+    transition-duration: 0.3s;
+    transform: rotate(-45deg);
+}
+
+.product-display {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    border: 1px solid #dddddd;
+}
+
+.product-img {
+    padding: 2px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}
+
+.product-rating {
+    font-size: 20px;
+    margin-bottom: 25px;
+    color: #FFBF00;
+}
+
+.product-title {
+    font-size: 20px;
+}
+
+.product-price {
+    font-size: 22px;
+}
+
+.product-stock {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.in-stock {
+    color: #74DF00;
+}
+
+.out-of-stock {
+    color: #fb515d;
+}
+
+.link-white {
+    color: #ffffff;
+}
+
+    .link-white:hover {
+        color: #b2b2b2;
+        transition: color 0.5s ease;
+    }
+
+    .link-white:active {
+        color: rgba(255, 255, 255, 0.3);
+        transition: color 0.5s ease;
+    }
+
+.category-card {
+    text-align: center;
+    padding: 0;
+    border: 1px solid #cfd8dc;
+    margin: -1px -1px 0 0;
+    float: left;
+}
+
+    .category-card:hover {
+        box-shadow: 0 10px 10px 0 rgba(36,50,56,0.2);
+    }
+
+    .category-card:active {
+        box-shadow: 0 10px 10px 0 rgba(0,0,0,0.8);
+    }
+
+.product-item:hover {
+    box-shadow: 0 10px 10px 0 rgba(36,50,56,0.2);
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+}
+
+.rate {
+    cursor: pointer;
+}
+
+.gold {
+    color: #FFBF00;
+}

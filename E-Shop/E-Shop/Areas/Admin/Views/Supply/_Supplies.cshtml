@@ -1,0 +1,27 @@
+﻿@using E_Shop.Helpers
+@model  E_Shop.ViewModels.PagerViewModel.PagerViewModel<E_Shop.Areas.Admin.ViewModels.SupplyViewModels.SupplyViewModel>
+<table class="table table-hover">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Entities.FirstOrDefault().Supplier.Name)</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Entities.FirstOrDefault().SupplyDate)
+        </th>
+        <th class="text-right">Действие</th>
+    </tr>
+
+    @foreach (var item in Model.Entities)
+    {
+        <tr>
+            <td>@item.Supplier.Name</td>
+            <td>
+                @item.SupplyDate.ToString("dd.MM.yyyy HH:mm")
+            </td>
+            <td class="text-right">
+                @Html.ActionLink("Подробности", "Details", new { id = item.SupplyId }, new { @class = "btn btn-info" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.PaginationAjax(Model.Pager)

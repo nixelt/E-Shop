@@ -1,0 +1,36 @@
+﻿@model E_Shop.ViewModels.SettingsViewModels.VerifyCodeViewModel
+@{
+    ViewBag.Title = "Введите код";
+}
+
+<h2>@ViewBag.Title.</h2>
+<p>Вам был отправлен код. Введите его.</p>
+@using (Html.BeginForm("VerifyCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+    @Html.AntiForgeryToken()
+    @Html.Hidden("provider", Model.Provider)
+    @Html.Hidden("rememberMe", Model.RememberMe)
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Code, new { @class = "col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.CheckBoxFor(m => m.RememberBrowser)
+                @Html.LabelFor(m => m.RememberBrowser)
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" class="btn btn-primary" value="Отправить" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

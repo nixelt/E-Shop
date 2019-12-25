@@ -1,0 +1,22 @@
+﻿@model E_Shop.ViewModels.AccountViewModels.ExternalLoginListViewModel
+
+@using Microsoft.Owin.Security
+
+<h4>Авторизация через внешние сервсы</h4>
+<hr />
+@{
+    var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+
+    using (Html.BeginForm("ExternalLogin", "Account", new { Model.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        <div id="socialLoginList">
+            <p>
+                @foreach (var p in loginProviders)
+                {
+                    <button type="submit" class="btn btn-dark" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                }
+            </p>
+        </div>
+    }
+}

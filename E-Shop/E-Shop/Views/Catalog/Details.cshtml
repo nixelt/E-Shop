@@ -1,0 +1,63 @@
+﻿@model E_Shop.ViewModels.DetailsCategoryViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Главная</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index")">Категории</a></li>
+                    <li class="breadcrumb-item active">@Model.Category.Name</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-3">
+            <div class="mb-1">
+                <p class="header">Фильтр</p>
+                <span class="catalog-filter-title">Цена:</span>
+                <div class="row mx-0">
+                    @Html.Editor("minPrice", new { htmlAttributes = new { @class = "form-control col-12 col-xl-4 my-1", id = "MinPrice", type = "number", Value = Model.MinPrice, min = "0", step = 50, maxlength = 7 } })
+                    @Html.Editor("maxPrice", new { htmlAttributes = new { @class = "form-control col-12 col-xl-4 offset-xl-1 my-1", id = "MaxPrice", type = "number", Value = Model.MaxPrice, min = "0", step = 50, maxlength = 7 } })
+                    <input class="btn btn-primary col-12 col-xl-2 px-lg-1 offset-xl-1 my-1" type="submit" value="OK" />
+                </div>
+            </div>
+            <div class="mb-1">
+                @foreach (var attribute in Model.Attributes)
+                {
+                    <p>@attribute.Name</p>
+                    @*foreach (var attributeValue in attribute.AttributeValues.DistinctBy(x => x.Value).OrderBy(x => x.Value))
+                        {
+                            <div class="form-group">
+                                <div class="form-control">
+                                    <label class="checkbox-label">
+                                        @Html.CheckBox("" + attributeValue.AttributeId, false, new { @class = "filter-value", Value = attributeValue.Value })
+                                        <span></span> @attributeValue.Value
+                                    </label>
+                                </div>
+                            </div>
+                        }*@
+                }
+                <div class="row mx-0">
+                    <input class="btn btn-primary col-12 col-lg-5 my-1" type="submit" value="Найти" />
+                    <input class="btn btn-secondary col-12  col-lg-5 offset-lg-2 my-1" type="submit" value="Сбросить" />
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row header">
+                <p class="m-0">@Model.Category.Name</p>
+            </div>
+            @Html.Partial("_ProductList", Model.Products)
+        </div>
+
+    </div>
+</div>
+

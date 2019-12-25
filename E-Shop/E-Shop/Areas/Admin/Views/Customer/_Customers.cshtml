@@ -1,0 +1,51 @@
+﻿@using E_Shop.Helpers
+@model E_Shop.ViewModels.PagerViewModel.PagerViewModel<E_Shop.Areas.Admin.ViewModels.UserViewModels.UserViewModel>
+
+<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Entities[0].FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Entities[0].PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Entities[0].Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Entities[0].IsBlocked)
+        </th>
+        <th class="text-right">Действие</th>
+    </tr>
+
+    @foreach (var item in Model.Entities)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @if (item.IsBlocked)
+                {
+                    <text>Да</text>
+                }
+                else
+                {
+                    <text>Нет</text>
+                }
+            </td>
+            <td class="text-right">
+                @Html.ActionLink("Подробности", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.PaginationAjax(Model.Pager)

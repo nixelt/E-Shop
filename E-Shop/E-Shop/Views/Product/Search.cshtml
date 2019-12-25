@@ -1,0 +1,8 @@
+﻿@model E_Shop.ViewModels.PagerViewModel.PagerViewModel<E_Shop.ViewModels.ProductViewModels.ProductViewModel>
+
+    @{
+        ViewBag.Title = "Search";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    @Html.Partial("_ProductList", Model)

@@ -1,0 +1,63 @@
+﻿@model E_Shop.ViewModels.PagerViewModel.PagerViewModel<E_Shop.ViewModels.ProductViewModels.ProductViewModel>
+
+<div class="row products">
+    @if (Model.Entities.Count != 0)
+    {
+        foreach (var product in Model.Entities)
+         {
+             <div class="col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                 <div class="card product-item product__item" data-id="@product.ProductId">
+                     <a href="@Url.Action("Index", "Product", new { id = product.ProductId })" class="catalog-picture responsive-img mt-1">
+                         <img src="data:image/jpeg;base64, @Convert.ToBase64String(product.Image)" alt="@product.Name"/>
+                     </a>
+
+                     <div class="card-body">
+                         <a href="@Url.Action("Index", "Product", new { id = product.ProductId })" class="catalog-title product__name">@product.Name</a>
+                         <div class="row">
+                             <div class="col d-flex align-items-center justify-content-center price-block">
+                                 @if (product.OldPrice != 0)
+                                 {
+                                     <span class="price old-price">@product.OldPrice грн</span>
+                                     <span class="price new-price product__price">@product.Price грн</span>
+                                 }
+                                 else
+                                 {
+                                     <p class="price product-price product__price">@product.Price грн</p>
+                                 }
+                             </div>
+                             <div class="w-100"></div>
+                             <div class="col">
+                                 @if (product.InStock)
+                                 {
+                                     <a href="#OpenCart" class="btn btn-success btn-block add-to-cart" data-id="@product.ProductId">В корзину</a>
+                                 }
+                                 else
+                                 {
+                                     <p class="out-of-stock text-center">Нет в наличии</p>
+                                 }
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         }
+        if (Model.Pager != null)
+         {
+             if (Model.Pager.EndPage > 1)
+             {
+                 <ul class="pagination col-12 d-flex justify-content-center my-1">
+                     @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                     {
+                         <li class="@(page == Model.Pager.CurrentPage ? "active page-item" : "page-item")">
+                             <button type="submit" name="page" class="btn page-link" value="@page">@page</button>
+                         </li>
+                     }
+                 </ul>
+             }
+         }
+    }
+    else
+    {
+        <p class="font-weight-bold">Товары не найдены</p>
+    }
+    </div>

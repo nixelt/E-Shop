@@ -1,0 +1,36 @@
+﻿@model List<E_Shop.ViewModels.IndexProductViewModel>
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+            <div class="card">
+                <a href="@Url.Action("", "", new { id = product.ProductId })" class="catalog-picture responsive-img">
+                    <img class="card-img-top" src="data:image/jpeg;base64, @Convert.ToBase64String(product.Image)" alt="@product.Name" />
+                </a>
+
+                <div class="card-body">
+                  <a href="@Url.Action("", new { id = @product.ProductId })" class="catalog-title">@product.Name</a>
+                    <div class="row">
+                        <div class="col d-flex align-items-center justify-content-center price-block">
+                            @if (product.OldPrice != 0)
+                            {
+                                <span class="price old-price">@product.OldPrice грн</span>
+                                <span class="price new-price ">@product.Price грн</span>
+                            }
+                            else
+                            {
+                                <p class="price">@product.Price грн</p>
+                            }
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <a href="#" class="btn btn-success btn-block">В корзину</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

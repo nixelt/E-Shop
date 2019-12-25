@@ -1,0 +1,180 @@
+﻿@model E_Shop.ViewModels.OrderViewModels.CreateOrderViewModel
+
+@{
+    ViewBag.Title = "Создание заказа";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("Create", null, FormMethod.Post, new { id = "createOrder" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(x => x.Address)
+    <table class="table products">
+        <tr class="d-none d-md-flex row">
+            <th class="col-md-3"></th>
+            <th class="col-sm-4 flex-grow-1">@Html.DisplayNameFor(x => x.CartItems.FirstOrDefault().Name)</th>
+            <th class="col-1 text-center">@Html.DisplayNameFor(x => x.CartItems.FirstOrDefault().Price)</th>
+            <th class="col-sm-2 text-center">@Html.DisplayNameFor(x => x.CartItems.FirstOrDefault().QuantityInCart)</th>
+            <th class="col-sm-2 col-md-1 text-center">Сумма</th>
+            <th class="col-1"></th>
+        </tr>
+
+        @for (var i = 0; i < Model.CartItems.Count; i++)
+        {
+            @Html.HiddenFor(modelItem => Model.CartItems[i].ProductId)
+            <tr class="cart__item product-item row text-center d-none" data-id="@Model.CartItems[i].ProductId">
+                <td class="product-img col-12 col-md-3">
+                    <img class="w-100" src="data:image/jpeg;base64, @Convert.ToBase64String(Model.CartItems[i].Image)" alt="@Model.CartItems[i].Name" />
+                </td>
+                <td class="col-12 col-sm-4 flex-grow-1  text-sm-left">
+                    @Html.ActionLink(Model.CartItems[i].Name, "Index", "Product", new { id = Model.CartItems[i].ProductId }, null)
+                </td>
+                <td class="product__price  px-0 col-2 col-md-1 py-3">@Model.CartItems[i].Price</td>
+                <td class="col-6  px-0 col-sm-3 col-md-2">
+                    <div class="d-flex align-items-center flex-grow-1">
+                        <button class="btn btn-dark cart__decrement" type="button">
+                            <i class="fas fa-minus cart__decrement"></i>
+                        </button>
+                        @Html.EditorFor(modelItem => Model.CartItems[i].QuantityInCart, new { htmlAttributes = new { @class = "form-control px-0 px-md-1 text-center product__quantity", @readonly = string.Empty, type = "text" } })
+                        <button class="btn btn-dark cart__increment" type="button">
+                            <i class="fas fa-plus cart__increment"></i>
+                        </button>
+                    </div>
+
+                    <small class="text-muted col-12 p-0">
+                        @Html.ValidationMessageFor(x => Model.CartItems[i].QuantityInCart, string.Empty, new { @class = "text-danger" })
+                        Максимальный заказ - <span class="product__available-quantity">@Model.CartItems[i].QuantityInStock</span>
+                    </small>
+                </td>
+                <td class="total px-0 col-3 col-sm-2 col-md-1 py-3">@(Model.CartItems[i].Price * Model.CartItems[i].QuantityInCart)</td>
+                <td class="col-1 px-0">
+                    <button class="btn btn-danger remove-item" 3 type="button">
+                        <i class="fas fa-trash-alt remove-item"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td class="text-right" colspan="5">Общая сумма - <span class="cart__total font-weight-bold">0</span> грн</td>
+        </tr>
+    </table>
+
+    <div class="form-horizontal">
+        <div class="validation-summary-valid text-danger">
+            <ul></ul>
+        </div>
+        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstName, string.Empty, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MiddleName, string.Empty, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastName, string.Empty, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="delivery">
+            <div class="form-group">
+                <label for="deliveryOption" class="col">Доставка</label>
+                <div class="col-md-10">
+                    <select name="deliveryOption" id="deliveryOption" class="form-control">
+                        <option value="NovaPoshta">Новая почта</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <select id="deliveryType" class="form-control">
+                        <option value="ToDepartment">В отделение</option>
+                        <option value="ToAddress">По адресу</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="company" id="NovaPoshta">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <select class="form-control" id="NovaPoshtaCities"></select>
+                    </div>
+                </div>
+
+                <div class="delivery__type to__department">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <select class="form-control" id="NovaPoshtaOffices"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="delivery__type to__address d-none">
+                    <div class="form-group">
+                        <div class="col-md-10 d-flex">
+                            <input class="col-8 form-control" id="street" placeholder="Улица" />
+                            <input class="offset-1 col-1 form-control px-0 text-center" id="house" placeholder="Дом" />
+                            <input class="offset-1 col-1 form-control px-0 text-center" id="apartment" placeholder="Кв." />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Phone, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", placeholder = "+380501245789" })
+                @Html.ValidationMessageFor(m => m.Phone, string.Empty, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email@example.com" })
+                @Html.ValidationMessageFor(m => m.Email, string.Empty, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Comment, 5, 3, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Comment, string.Empty, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+                @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Styles
+{
+    @Styles.Render("~/bundles/select2")
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/select2Js")
+    @Scripts.Render("~/bundles/delivery")
+}

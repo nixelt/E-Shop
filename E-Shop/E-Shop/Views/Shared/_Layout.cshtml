@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container">
+            <div class="row w-100 ">
+                <div class="col">
+                    <div class="row m-0">
+                        <a class="navbar-brand col-12 col-sm-3 col-md-2 text-center text-md-left" href="@Url.Action("Index", "Home")">Nixelt Store</a>
+                        @using (Html.BeginForm("Search", "Product", FormMethod.Get, new { @class = "my-2 my-sm-0 mx-1 flex-grow-1" }))
+                        {
+                            <div class="input-group">
+                                <input type="text" name="input" class="form-control" placeholder="Поиск...">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-secondary">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+
+
+                        <div class="col-sm-6 col-lg-2 px-1 px-lg-0 mx-lg-1 my-1 my-lg-0">
+                            @using (Html.BeginForm("Create", "Order", FormMethod.Get, new { id = "checkoutForm" }))
+                            {
+                            }
+                            <a class="btn btn-success my-sm-0 align-items-center w-100 px-0 px-lg-2 text-white " id="OpenCartBtn" data-toggle="modal" data-target="#OpenCart">
+                                <span><i class="fa fa-shopping-cart "></i> Корзина</span>
+                                <span class="badge badge-light" id="cartCount"></span>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-2 px-1 px-lg-0 my-1 my-lg-0">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a href="@Url.Action("Login", "Account")" class="btn btn-danger w-100 "><i class="fas fa-sign-in-alt pr-1"></i>Войти</a>
+                            }
+                            else
+                            {
+                                <div class="dropdown ">
+                                    <button class="btn btn-danger dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-user pr-1"></i> Профиль
+                                    </button>
+                                    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+                                        @if (User.IsInRole("Manager"))
+                                        {
+                                            <a class="dropdown-item" href="@Url.Action("Index", "Home", new { Area = "Admin" })"><i class="fas fa-user-secret"></i> Админ панель</a>
+                                        }
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Order")"><i class="fas fa-scroll"></i> Мои заказы</a>
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Settings")"><i class="fas fa-cogs"></i> Настройки</a>
+                                        @using (Html.BeginForm("LogOff", "Account"))
+                                        {
+                                            <button class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Выход</button>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col">
+                        <ul class="nav justify-content-between">
+                            <li class="nav-item">
+                                @Html.ActionLink("Каталог", "Index", "Catalog", null, new { @class = "nav-link link-white" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Гарантия", "Warranty", "Home", null, new { @class = "nav-link link-white" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Доставка", "Delivery", "Home", null, new { @class = "nav-link link-white" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Контакты", "Contact", "Home", null, new { @class = "nav-link link-white" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("О нас", "About", "Home", null, new { @class = "nav-link link-white" })
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        @RenderBody()
+    </main>
+    <footer class="bg-dark text-white">
+        <div class="container">
+            <div class="col-12">
+                <a class="navbar-brand" @Url.Action("Index", "Home")>Nixelt Store</a>
+            </div>
+            <div class="row">
+                <p class="col-12 col-sm-4">©2019 Компания Nixelt <br>Все права защищены</p>
+                <div class="col-12 col-sm-4 d-flex justify-content-md-center">
+                    <a class="" href="https://twitter.com" target="_blank">
+                        <i class="fab fa-twitter-square fa-2x mx-1 link-white"></i><span class="d-none">Twitter</span>
+                    </a>
+                    <a class="" href="https://fb.com" target="_blank">
+                        <i class="fab fa-facebook-square fa-2x mx-1 link-white"></i><span class="d-none">Facebook</span>
+                    </a>
+                    <a class="" href="https://instagram.com/" target="_blank">
+                        <i class="fab fa-instagram fa-2x mx-1 link-white"></i><span class="d-none">Instagram</span>
+                    </a>
+                </div>
+                <p class="text-white col-12 col-sm-4 text-md-right">Разработчик: <a href="tg://resolve?domain=Nixelt" class="text-white-50">Maksym Ivanov</a></p>
+            </div>
+        </div>
+    </footer>
+
+
+    <div class="modal fade" id="OpenCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Корзина</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="cartItems">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Продолжить покупки</button>
+                    <button type="button" class="btn btn-primary checkout" data-dismiss="modal">Оформить заказ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/main")
+    @Scripts.Render("~/bundles/cart")
+</body>
+</html>

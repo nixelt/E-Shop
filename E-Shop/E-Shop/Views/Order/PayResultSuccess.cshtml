@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Оплата прошла успешно!";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+</hgroup>
+<div>
+    <h2>Спасибо, Ваш заказ оплачен</h2>
+    @Html.ActionLink("На главную", "Index", "Home", null, new { @class = "btn-link" })
+</div>

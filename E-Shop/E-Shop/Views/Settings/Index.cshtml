@@ -1,0 +1,58 @@
+﻿@model E_Shop.ViewModels.SettingsViewModels.SettingsViewModel
+@{
+    ViewBag.Title = "Настройки";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<h4>@Model.UserInfo.LastName @Model.UserInfo.FirstName @Model.UserInfo.MiddleName</h4>
+<div><span class="font-weight-bold">Электронная почта: </span> @Model.UserInfo.Email
+    @Model.UserInfo.Phone @if (!Model.EmailConfirmed)
+                          {
+                              @Html.ActionLink("Подтвердить электронную почту", "VerifyEmail", null, new { @class = "btn-link" })
+                          }</div>
+<div>
+    <span class="font-weight-bold">Номер телефона: </span>
+    @Model.UserInfo.Phone @if (!Model.PhoneNumberConfirmed)
+    {
+        @Html.ActionLink("Подтвердить номер телефона", "VerifyPhoneNumber", null, new { @class = "btn-link" })
+    }
+</div>
+<div>
+    <span class="font-weight-bold">Двухфакторная аутентификация: </span>
+
+    @if (Model.EmailConfirmed || Model.PhoneNumberConfirmed)
+    {
+        if (Model.TwoFactorEnabled)
+        {
+            using (Html.BeginForm("DisableTwoFactorAuthentication", "Settings", FormMethod.Post, new { @class = "d-inline-block", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <text>Включена
+                    <input type="submit" value="Отключить" class="btn btn-link m-0 p-0" />
+                </text>
+            }
+        }
+        else
+        {
+            using (Html.BeginForm("EnableTwoFactorAuthentication", "Settings", FormMethod.Post, new { @class = "d-inline-block", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <text>Отключена
+                    <input type="submit" value="Включить" class="btn btn-link m-0 p-0" />
+                </text>
+            }
+        }
+    }
+    else
+    {
+        <text>Чтобы включить двухфакторную аутентификацию необходимо подтвердить телефон или электронную почту</text>
+    }
+</div>
+
+<ul class="list-group list-group-flush mt-3">
+    <li class="list-group-item bg-light">@Html.ActionLink("Изменить пароль", "ChangePassword")</li>
+    <li class="list-group-item bg-light">@Html.ActionLink("Редактировать информацию о себе", "EditContactInfo")</li>
+</ul>

@@ -1,0 +1,55 @@
+﻿@using E_Shop.ViewModels.AccountViewModels
+@model LoginViewModel
+
+@{
+    ViewBag.Title = "Вход";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Msg"] != null)
+{
+    <p class="alert alert-danger">@TempData["Msg"]</p>
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Войти используя почту</h4>
+        <hr />
+        @using (Html.BeginForm("Login", "Account", new { ViewBag.ReturnUrl }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col" })
+                <div class="col">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email@example.com" })
+                    @Html.ValidationMessageFor(m => m.Email, string.Empty, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "col" })
+                <div class="col">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, string.Empty, new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col">
+                    <input type="submit" value="Войти" class="btn btn-primary" />
+                    @Html.ActionLink("Зарегистрироваться", "Register", null, new { @class = "btn btn-link mx-2" })
+                </div>
+            </div>
+            <p>
+                @Html.ActionLink("Забыли пароль?", "ForgotPassword")
+            </p>
+        }
+    </div>
+    <div class="col-md-6">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>
+</div>

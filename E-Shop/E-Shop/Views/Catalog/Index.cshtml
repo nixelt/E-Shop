@@ -1,0 +1,21 @@
+﻿@model List<E_Shop.ViewModels.CategoryViewModels.IndexCategoryViewModel>
+
+@{
+    ViewBag.Title = "Каталог";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    @foreach (var category in Model)
+    {
+        <div class="category-card col-12 col-md-6 col-lg-4 col-xl-3 p-1 bg-white">
+            <a href="@Url.Action("Products", new { id = category.CategoryId })">
+                <div class="catalog-picture responsive-img">
+                    <img class="" src="data:image/jpeg;base64, @Convert.ToBase64String(category.Image)" alt="@category.Name" />
+                </div>
+
+                <h2 class="text-dark">@category.Name</h2>
+            </a>
+        </div>
+    }
+</div>
