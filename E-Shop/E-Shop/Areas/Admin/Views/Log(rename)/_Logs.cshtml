@@ -1,0 +1,54 @@
+﻿@using E_Shop.Helpers
+@model E_Shop.ViewModels.PagerViewModel.PagerViewModel<E_Shop.Areas.Admin.ViewModels.LogViewModels.LogViewModel>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Thread)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Level)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Logger)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Message)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entities[0].Exception)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Entities)
+        {
+            <tr>
+                <td>
+                    @item.Date.ToString("dd.MM.yyyy HH:mm:ss")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Thread)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Logger)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Message)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Exception)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@Html.PaginationAjax(Model.Pager)

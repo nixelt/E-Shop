@@ -1,0 +1,26 @@
+﻿@using E_Shop.Service.Enums
+@model E_Shop.ViewModels.PagerViewModel.PagerViewModel<E_Shop.Areas.Admin.ViewModels.LogViewModels.LogViewModel>
+
+@{
+    ViewBag.Title = "Логи";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Ajax.BeginForm("GetLogs", "Log", null, new AjaxOptions { UpdateTargetId = "Logs" }))
+{
+    <div class="col-4 p-0 my-1 ">
+        @Html.DropDownList("logLevel", EnumHelper.GetSelectList(typeof(LogLevel)), "Все", new { @class = "form-control", id = "ajaxSelectSubmit" })
+    </div>
+
+    <div id="Logs">
+        @Html.Partial("_Logs", Model)
+    </div>
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+}
